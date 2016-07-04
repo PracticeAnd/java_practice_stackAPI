@@ -8,10 +8,6 @@ import stack.domain.User;
 
 import javax.validation.Valid;
 
-/**
- * Created by Оля on 04.07.2016.
- */
-
 @Controller
 @RequestMapping(value = "/")
 public class UserController {
