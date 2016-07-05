@@ -10,7 +10,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping(value = "/")
-public class UserController {
+public class LoginController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String showLogin(User user) {
