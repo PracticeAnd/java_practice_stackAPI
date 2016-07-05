@@ -6,20 +6,16 @@ buildscript {
         mavenLocal()
         mavenCentral()
     }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.3.5.RELEASE")
-    }
 }
 
 apply plugin: 'java'
 apply plugin: 'war'
-apply plugin: 'spring-boot'
-
-sourceCompatibility = 1.8
 
 war {
-    baseName = 'stack-project'
-    version =  '1.0-SNAPSHOT'
+    baseName = 'andersenpractice'
+    version = '1.0-SNAPSHOT'
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
 }
 
 repositories {
@@ -29,11 +25,21 @@ repositories {
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
-    compile("org.hibernate:hibernate-validator")
-    compile("org.apache.tomcat.embed:tomcat-embed-el")
 
-    testCompile("junit:junit")
-    testCompile("org.mockito:mockito-core")
-    testCompile("org.springframework:spring-test")
+    compile ("javax.servlet:javax.servlet-api:4.0.0-b01")
+    compile ("org.springframework:spring-context:4.3.0.RELEASE")
+    compile ("org.springframework:spring-webmvc:4.3.0.RELEASE")
+    compile ("org.springframework:spring-web:4.3.0.RELEASE")
+    compile ("org.springframework.security:spring-security-web:4.1.0.RELEASE")
+    compile ("org.springframework.security:spring-security-core:4.1.0.RELEASE")
+    compile ("org.springframework.security:spring-security-config:4.1.0.RELEASE")
+    compile ("org.springframework.security:spring-security-taglibs:4.1.0.RELEASE")
+    compile ("org.springframework:spring-jdbc:4.3.1.RELEASE")
+    compile ("org.thymeleaf:thymeleaf-spring4:3.0.0.RELEASE")
+    compile ("org.hibernate:hibernate-validator:5.2.4.Final")
+    compile ("org.apache.tomcat.embed:tomcat-embed-el:8.0.36")
+
+    testCompile("junit:junit:4.12")
+    testCompile("org.mockito:mockito-core:1.9.5")
+    testCompile("org.springframework:spring-test:4.3.0.RELEASE")
 }
