@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Login</title>
+    <link rel='stylesheet prefetch' href='http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css'>
+    <link rel="stylesheet"
+          type="text/css"
+          th:href="@{resources/style.css}"/>
+</head>
+<html>
+<body>
+
+<div class="wrapper">
+    <!--/*@thymesVar id="user" type="ru.stackoverflow.entity.User"*/-->
+    <form action="#" th:action="@{/}" th:object="${user}" method="post" class="form-login">
+        <h2 class="form-login-heading">Please login</h2>
+        <input type="text" th:field="*{login}" class="form-control" name="username" placeholder="Username"
+               required="" autofocus=""/>
+        <input type="password" th:field="*{password}" class="form-control" name="password" placeholder="Password"
+               required=""/>
+        <label class="checkbox">
+            <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> Remember me
+        </label>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+        <div class="utilities">
+            <a href="#">Forgot your password?</a>
+            <a href="#">Sign Up &rarr;</a>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
+</html>

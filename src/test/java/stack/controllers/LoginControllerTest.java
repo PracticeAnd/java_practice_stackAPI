@@ -2,6 +2,7 @@ package stack.controllers;
 
 import org.junit.Test;
 import org.springframework.test.web.servlet.MockMvc;
+import stack.web.LoginController;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
