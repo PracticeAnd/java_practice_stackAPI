@@ -1,8 +1,24 @@
 package ru.stackoverflow.entity;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class User {
+
+    @NotNull
+    @Size(min = 5, max = 16, message = "{}")
     private String login;
+
+    @NotNull
+    @Size(min = 5, max = 25, message = "{}")
     private String password;
+
+    /*@Size(min = 5, max = 16, message = "{username.size}")
+    private String username;
+
+    @NotNull
+    @Size(min = 5, max = 25, message = "{password.size}")
+    private String password;*/
 
     public User() {
     }

@@ -1,36 +1,35 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Login</title>
+    <title th:text="#{project.title}"></title>
     <link rel='stylesheet prefetch' href='http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css'>
     <link rel="stylesheet"
           type="text/css"
           th:href="@{resources/style.css}"/>
 </head>
-<html>
 <body>
+
+<div align="right"><a href="?locale=en">English </a> | <a href="?locale=ru">Russian </a></div>
 
 <div class="wrapper">
     <!--/*@thymesVar id="user" type="ru.stackoverflow.entity.User"*/-->
-    <form action="#" th:action="@{/}" th:object="${user}" method="post" class="form-login">
-        <h2 class="form-login-heading">Please login</h2>
-        <input type="text" th:field="*{login}" class="form-control" name="username" placeholder="Username"
+    <form th:object="${user}" method="post" class="form-login">
+        <h2 class="form-login-heading" th:text="#{login.welcome}"></h2>
+        <input type="text" th:field="*{login}" th:placeholder="#{login.username}" class="form-control"
                required="" autofocus=""/>
-        <input type="password" th:field="*{password}" class="form-control" name="password" placeholder="Password"
+        <input type="password" th:field="*{password}" th:placeholder="#{login.password}" class="form-control"
                required=""/>
         <label class="checkbox">
-            <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> Remember me
+            <input type="checkbox" th:text="#{login.remember}" value="remember-me" name="rememberMe">
         </label>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" th:text="#{login.submit}"></button>
         <div class="utilities">
-            <a href="#">Forgot your password?</a>
-            <a href="#">Sign Up &rarr;</a>
+            <a href="#" th:text="#{login.fogot.password}"></a>
+            <a th:href="@{/user/register}" th:text="#{login.signup}"></a>
         </div>
     </form>
 </div>
 
 </body>
-</html>
 </html>
