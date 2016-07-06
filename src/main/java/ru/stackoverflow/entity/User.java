@@ -1,31 +1,42 @@
 package ru.stackoverflow.entity;
 
+import org.hibernate.validator.constraints.Email;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class User {
 
+    private Integer id;
+
     @NotNull
-    @Size(min = 5, max = 16, message = "{}")
+    @Size(min = 5, max = 16, message = "{username.size}")
     private String login;
 
     @NotNull
-    @Size(min = 5, max = 25, message = "{}")
+    @Size(min = 5, max = 25, message = "{password.size}")
     private String password;
 
-    /*@Size(min = 5, max = 16, message = "{username.size}")
-    private String username;
-
     @NotNull
-    @Size(min = 5, max = 25, message = "{password.size}")
-    private String password;*/
+    @Email
+    private String email;
 
     public User() {
     }
 
-    public User(String login, String password) {
+    public User(Integer id, String login, String password, String email) {
+        this.id = id;
         this.login = login;
         this.password = password;
+        this.email = email;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getLogin() {
@@ -43,4 +54,14 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+
 }

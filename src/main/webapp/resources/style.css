@@ -59,3 +59,7 @@ body {
     width: 50%;
     text-align: right;
 }
+
+p.error {
+    color: red;
+}
