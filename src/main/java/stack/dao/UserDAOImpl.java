@@ -1,50 +1,62 @@
 package stack.dao;
 
-import org.springframework.dao.DataAccessException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementSetter;
-import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
-import stack.model.User;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.stereotype.Repository;
+import ru.stackoverflow.entity.User;
 
-import javax.sql.DataSource;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class UserDAOImpl implements UserDAO{
-    private JdbcTemplate jdbcTemplate;
+@Repository
+public class UserDAOImpl implements UserDAO {
 
-    public UserDAOImpl(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    private JdbcTemplate jdbc;
+
+    @Autowired
+    public UserDAOImpl(JdbcTemplate jdbc) {
+        this.jdbc = jdbc;
     }
 
-    //Добалвение нового пользователя в БД
+    //Добавление нового пользователя в БД
     @Override
-    public void addUser(User user) {
-        String sql = "INSERT INTO user (login, password) VALUES (?, ?)";
-        jdbcTemplate.update(sql, getPreparedStatement(user));
+    public User addUser(User user) {
+        Integer id = user.getId();
+        if (id == null) {
+            Integer userId = insertUserAndReturnId(user);
+            return new User(userId, user.getLogin(), user.getPassword(), user.getEmail());
+        } else {
+            jdbc.update("update User set login=?, password=?, email=? where user_id=?",
+                    user.getLogin(),
+                    user.getPassword(),
+                    user.getEmail(),
+                    id);
+        }
+        return user;
+    }
+
+    private Integer insertUserAndReturnId(User user) {
+        SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbc).withTableName("User");
+        jdbcInsert.setGeneratedKeyName("user_id");
+        Map<String, Object> args = new HashMap<String, Object>();
+        args.put("login", user.getLogin());
+        args.put("password", user.getPassword());
+        args.put("email", user.getEmail());
+        Integer userId = jdbcInsert.executeAndReturnKey(args).intValue();
+        return userId;
     }
 
     //Метод для вывода полного списка юзеров
     @Override
     public List<User> listOfUser() {
-        String sql = "SELECT * FROM User";
-        List<User> userList = jdbcTemplate.query(sql, new RowMapper<User>() {
-            @Override
-            public User mapRow(ResultSet resultSet, int rowNum) throws SQLException {
-                User user = new User();
-
-                user.setId(resultSet.getInt("user_id"));
-                user.setLogin(resultSet.getString("login"));
-                user.setPassword(resultSet.getString("password"));
-
-                return user;
-            }
-        });
-
-        return null;
+        String sql = "SELECT user_id, login, password, email  FROM User";
+        List<User> userList = jdbc.query(sql, new UserRowMapper());
+        return userList;
     }
 
     //Удаление пользователя
@@ -54,38 +66,23 @@ public class UserDAOImpl implements UserDAO{
 
     }
 
-    //Метод для изменения или создания пользователя
-    private PreparedStatementSetter getPreparedStatement(final User user) {
-        return new PreparedStatementSetter() {
-            @Override
-            public void setValues(PreparedStatement preparedStatement) throws SQLException {
-                int i = 0;
-                preparedStatement.setString(++i, user.getLogin());
-                preparedStatement.setString(++i, user.getPassword());
-            }
-        };
-    }
-
     //Метод для вытаскивания из базы юзера по id
     @Override
-    public User getUser(Integer userId) {
-        String sql = "SELECT * FROM Users WHERE user_id = " + userId;
+    public User getUserById(Integer userId) {
+        String sql = "SELECT user_id, login, password, email FROM User WHERE user_id = ?";
+        return jdbc.queryForObject(
+                sql,
+                new UserRowMapper(),
+                userId);
+    }
 
-        return jdbcTemplate.query(sql, new ResultSetExtractor<User>() {
-            @Override
-            public User extractData(ResultSet resultSet) throws SQLException,
-                    DataAccessException {
-                if (resultSet.next()) {
-                    User user = new User();
-
-                    user.setId(resultSet.getInt("user_id"));
-                    user.setLogin(resultSet.getString("login"));
-                    user.setPassword(resultSet.getString("password"));
-
-                    return user;
-                }
-            return null;
-            }
-        });
+    private static class UserRowMapper implements RowMapper<User> {
+        public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new User(
+                    rs.getInt("user_id"),
+                    rs.getString("login"),
+                    rs.getString("password"),
+                    rs.getString("email"));
+        }
     }
 }

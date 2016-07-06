@@ -40,6 +40,6 @@ public class StackWebInitializer extends AbstractAnnotationConfigDispatcherServl
         FilterRegistration.Dynamic encodingFilter = servletContext.addFilter("encoding-filter", new CharacterEncodingFilter());
         encodingFilter.setInitParameter("encoding", "UTF-8");
         encodingFilter.setInitParameter("forceEncoding", "true");
-        encodingFilter.addMappingForUrlPatterns(null, false, "/*");
+        encodingFilter.addMappingForUrlPatterns(null, true, "/*");
     }
 }

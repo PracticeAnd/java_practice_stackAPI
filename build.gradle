@@ -38,6 +38,9 @@ dependencies {
     compile ("org.thymeleaf:thymeleaf-spring4:3.0.0.RELEASE")
     compile ("org.hibernate:hibernate-validator:5.2.4.Final")
     compile ("org.apache.tomcat.embed:tomcat-embed-el:8.0.36")
+    compile ("postgresql:postgresql:9.1-901-1.jdbc4")
+    compile ("com.h2database:h2:1.4.191")
+
 
     testCompile("junit:junit:4.12")
     testCompile("org.mockito:mockito-core:1.9.5")

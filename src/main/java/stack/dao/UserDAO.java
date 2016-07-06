@@ -1,15 +1,16 @@
 package stack.dao;
 
-import stack.model.User;
+
+import ru.stackoverflow.entity.User;
 
 import java.util.List;
 
 public interface UserDAO {
-    public void addUser(User user);
+    public User addUser(User user);
 
     public List<User> listOfUser();
 
     public void removeUser(Integer id);
 
-    public User getUser(Integer id);
+    public User getUserById(Integer id);
 }
